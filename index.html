@@ -74,9 +74,6 @@ body {
   
   A website created by Eric Karpovits 
   </p>
-  
-  <a href='https://www.stat-counter.org/'>www.stat-counter.org</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=44f1d9e115334e60df39c91e88da7046d3136177'></script>
-<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/803282/t/2"></script>
 
 </body>
 </html>
@@ -87,25 +84,13 @@ const countEl = document.getElementById('count');
 updateVisitCount();
 
 function updateVisitCount() {
-	fetch('https://api.countapi.xyz/update/florin-popcom/codepen/?amount=1')
+	fetch('https://api.countapi.xyz/get/erickarpovits.github.com/eric')
 	.then(res => res.json())
 	.then(res => {
 		countEl.innerHTML = res.value;
 	})
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
 // SOCIAL PANEL JS
 const floating_btn = document.querySelector('.floating-btn');
 const close_btn = document.querySelector('.close-btn');
