@@ -14,10 +14,33 @@ body {
 
 <h1>Eric's Personal Website</h1>
 <p>Welcome, please be patient while the website is being built.
-  
+	
+	
+<p>This page was viewed</p>
+<h1 id="count">0</h1>
+	
+<p>times</p>
+
+<button class="Click-Here">
+	Get in Touch
+</button>
   
   A website created by Eric Karpovits 
   </p>
 
 </body>
 </html>
+
+<script>
+const countEl = document.getElementById('count');
+
+updateVisitCount();
+
+function updateVisitCount() {
+	fetch('https://api.countapi.xyz/update/erickarpovits.github.com/eric/?amount=1')
+	.then(res => res.json())
+	.then(res => {
+		countEl.innerHTML = res.value;
+	})
+}
+</script>
