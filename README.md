@@ -10,3 +10,5 @@
 Eric's personal website! A software engineer ***in the making***.
 
 This is where I put the information about me and my personal projects. 
+
+Put in a visitor page counter using Java Script, CSS, and API.
