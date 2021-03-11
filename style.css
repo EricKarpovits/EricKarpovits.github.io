@@ -1,242 +1,413 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-// Variables
-$red: #ad0000;
-$lightBlack: #333;
-$darkGrey: #a9a9a9;
-$ghostWhite: #f8f8ff;
-$lightGrey: #d3d3d3;
-
-// Mixins
-@mixin transition($property) {transition: $property .25s;}
-
-/*Typography*/
-html {font: 16px 'Open Sans Condensed', 'Roboto Condensed', Verdana, sans-serif;}
-h1 {font-size: 2.25em;}
-h2 {font-size: 2em;}
-h3 {font-size: 1.75em;}
-h4 {font-size: 1.5em;}
-p {font-size: 1.25em;}
-/*Layout*/
-html,
 body {
-  width: 100%;
-  height: 100%;
+  background: #1f1f1f;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
-body {color: #333;}
-*,
-*:before,
-*:after {box-sizing: border-box;}
-.line {
-  float: left;
-  width: 100%;
-  border-top: .25em solid $lightBlack;
+
+$vertPad: 80px;
+$sidePad: 70px;
+
+$numOfEls: 5;
+$elMrg: 1%;
+
+$initAT: 1s;
+$initDelayStep: 0.1s;
+$fullInitAT: $initAT + $initDelayStep * ($numOfEls - 1);
+$moveAT: 0.6s;
+$expandAT: 0.7s;
+$expandDelay: 0.1s;
+$bgScaleAT: 0.8s;
+$fadeoutAT: $moveAT + $expandAT/2;
+$indexHoverAT: 0.5s;
+$closeBtnAT: 0.3s;
+$closeBtnLineDelay: 0.15s;
+$fullExpandAT: $moveAT + $expandDelay + $expandAT;
+$contentFadeinAT: 0.5s;
+
+@mixin elHover {
+  .el:hover & {
+    @content;
+  }
 }
-.wrapper {
-  margin: auto;
-  width: 60em;/*960px*/
-  //min-height: 100%;
+
+@mixin elActive {
+  .el.s--active & {
+    @content;
+  }
 }
-header,
-nav,
-section,
-footer {
-  float: left;
-  width: 100%;
+
+@mixin contInactive {
+  .cont.s--inactive & {
+    @content;
+  }
 }
-a {
-  text-decoration: none;
-  transition: color .25s;
+
+@mixin contElActive {
+  .cont.s--el-active & {
+    @content;
+  }
 }
-.button {
-  display: block;
-  padding: .75em 1.25em;
-  font-size: 1em;
-  font-weight: bold;
-  text-transform: uppercase;
-  background: $red;
-  color: #fff;
-  border: 0;
-  cursor: pointer;
-  &:focus,
-  &:hover {background: darken($red, 7%);}
-  &:active {background: #c10000;}
-}
-.link {
-  font-weight: bold;
-  color: $red;
-  &:focus,
-  &:hover {color: darken($red, 10%);}
-  &:active {color: lighten($red, 5%);}
-}
-/*Navigation*/
-nav h1 {
-  float: left;
-  padding: .25em .25em 0 0;
-  font-size: 4.5em;
-  text-transform: uppercase;
-}
-nav h1 a {color: $red;}
-.nav-ul {
-  display: flex;
-}
-header li {width: 20%;}
-header li:not(:first-child) {margin-left: 2%;}
-header .nav-ul a {
-  display: block;
-  padding: 1.75em .5em;
-  font-size: 1.5em;
-  text-align: center;
-  text-transform: uppercase;
-  color: $lightBlack;
-  &:focus,
-  &:hover {color: $red;}
-  &:active {color: lighten($red, 5%);}
-}
-header li:first-child a {
-  background: $red;
-  color: #fff;
-  &:hover {color: #fff;}
-}
-/*Sections*/
-section {margin: 1em 0;}
-section h1 {text-transform: uppercase;}
-hr {
-  border-color: $lightGrey;
-  border-style: dashed;
-}
-.vertical {
-  width: 0;
-  height: 10px;
-}
-/*Intro*/
-.sec-intro {position: relative;}
-.sec-intro img {
-  width: 100%;
-}
-.sec-intro h1 {
-  position: absolute;
-  bottom: .5em;
-  left: .5em;
-  padding: .5em;
-  background: rgba(0,0,0,.5);
-  color: #fff;
-}
-/*Boxes*/
-.box {
-  float: left;
-  padding: 1.5em 1em;
-  width: 25%;
-  height: 400px;
-  border-top: .1em solid $lightGrey;
-  border-bottom: .1em solid $lightGrey;
-  border-left: .1em solid $lightGrey;
-  @include transition(background);
-  &:focus,
-  &:hover {background: #f5f5f5;}
-}
-.box:last-child {border-right: .1em solid $lightGrey;}
-.box h1 {text-align: center;}
-.box p {
-  margin-top: 4em;
-  height: 6em;
-  text-align: justify;
-}
-.box .button {
-  margin: 4em auto;
-}
-/*Events*/
-.sec-events > h1 {margin-top: 1em;}
-.sec-events article {
-  float: left;
-  padding: 0 .25em;
-  width: 25%;
-  text-align: justify;
-}
-.sec-events article h1,
-.sec-events article p {
-  display: block;
-  margin: .5em 0;
-  padding: .25em 1em;
-  font-size: 110%;
-}
-.sec-events article a {float: right;padding-right: 1em;}
-.sec-events article h1 {font-weight: bold;text-align: center;}
-/*Projects*/
-.sec-projects {width: 60%;}
-.sec-projects > h1 {
-  margin-top: 1em;
-  text-align: center;
-}
-.sec-projects article {
-  padding: .5em 0;
-  width: 100%;
-}
-.sec-projects article h1,
-.sec-projects article p {font-size: 110%;}
-.sec-projects article h1 {font-weight: bold;}
-.sec-projects article p {
-  margin: .5em .5em .5em 0;
-  text-align: justify;
-}
-.sec-projects p a {float: right;}
-.sec-projects button {
+
+.cont {
   position: relative;
-  left: 80%;
+  overflow: hidden;
+  height: 100vh;
+  padding: $vertPad $sidePad;
+
+  &__inner {
+    position: relative;
+    height: 100%;
+    
+    &:hover .el__bg:after {
+      opacity: 1;
+    }
+  }
 }
-/*Standards*/
-.sec-standards {width: 40%;}
-.sec-standards > h1 {
-  margin-top: 1em;
-  text-align: center;
+
+.el {
+  $elW: (100% - $elMrg * ($numOfEls - 1)) / $numOfEls;
+  $elMrgRel: percentage($elMrg / $elW);
+  
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: $elW;
+  height: 100%;
+  background: #252525;
+  transition: transform $moveAT $expandAT, width $expandAT, opacity $moveAT $expandAT, z-index 0s $moveAT + $expandAT;
+  will-change: transform, width, opacity;
+
+  &:not(.s--active) {
+    cursor: pointer;
+  }
+  
+  &__overflow {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+  }
+
+  &__inner {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    transition: transform $initAT;
+
+    @include contInactive {
+      transform: translate3d(0,100%,0);
+    }
+  }
+
+  &__bg {
+    position: relative;
+    width: calc(100vw - #{$sidePad * 2});
+    height: 100%;
+    transition: transform $moveAT $expandAT;
+    will-change: transform;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -5%;
+      width: 100%;
+      height: 110%;
+      background-size: cover;
+      background-position: center center;
+      transition: transform $initAT;
+      transform: translate3d(0,0,0) scale(1);
+
+      @include contInactive {
+        transform: translate3d(0,-100%,0) scale(1.2);
+      }
+
+      @include elActive {
+        transition: transform $bgScaleAT;
+      }
+    }
+    
+    &:after {
+      $opacityAT: 0.5s;
+      
+      content: "";
+      z-index: 1;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: opacity $opacityAT;
+      
+      @include contElActive {
+        transition: opacity $opacityAT $fullExpandAT;
+        opacity: 1 !important;
+      }
+    }
+  }
+  
+  &__preview-cont {
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s $fullInitAT - 0.2s;
+    
+    @include contInactive {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    
+    @include contElActive {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s;
+    }
+  }
+  
+  &__heading {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 18px;
+  }
+  
+  &__content {
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.1s;
+    
+    @include elActive {
+      z-index: 2;
+      opacity: 1;
+      pointer-events: auto;
+      transition: all $contentFadeinAT $fullExpandAT;
+    }
+  }
+  
+  &__text {
+    text-transform: uppercase;
+    font-size: 40px;
+    color: #fff;
+  }
+  
+  &__close-btn {
+    
+    z-index: -1;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0s $closeBtnAT + $closeBtnLineDelay;
+    cursor: pointer;
+    
+    @include elActive {
+      z-index: 5;
+      opacity: 1;
+      pointer-events: auto;
+      transition: all 0s $fullExpandAT;
+    }
+    
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 8px;
+      margin-top: -4px;
+      background: #fff;
+      opacity: 0;
+      transition: opacity 0s;
+      
+      @include elActive {
+        opacity: 1;
+      }
+    }
+    
+    &:before {
+      transform: rotate(45deg) translateX(100%);
+      
+      @include elActive {
+        transition: all $closeBtnAT $fullExpandAT cubic-bezier(.72,.09,.32,1.57);
+        transform: rotate(45deg) translateX(0);
+      }
+    }
+    
+    &:after {
+      transform: rotate(-45deg) translateX(100%);
+      
+      @include elActive {
+        transition: all $closeBtnAT $fullExpandAT + $closeBtnLineDelay cubic-bezier(.72,.09,.32,1.57);
+        transform: rotate(-45deg) translateX(0);
+      }
+    }
+  }
+  
+  &__index {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    bottom: $vertPad * -1;
+    width: 100%;
+    height: 100%;
+    min-height: 250px;
+    text-align: center;
+    font-size: 100vw / $numOfEls;
+    line-height: 0.85;
+    font-weight: bold;
+    transition: transform $indexHoverAT, opacity $moveAT/2 $expandAT + $expandDelay + $moveAT;
+    transform: translate3d(0,1vw,0);
+    
+    @include elHover {
+      transform: translate3d(0,0,0);
+    }
+    
+    @include contElActive {
+      transition: transform $indexHoverAT, opacity $moveAT/2;
+      opacity: 0;
+    }
+    
+    &-back,
+    &-front {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+    }
+   
+    &-back {
+      color: #2f3840;
+      opacity: 0;
+      transition: opacity $indexHoverAT/2 $indexHoverAT/2;
+      
+      @include elHover {
+        transition: opacity $indexHoverAT/2;
+        opacity: 1;
+      }
+    }
+    
+    &-overlay {
+      overflow: hidden;
+      position: relative;
+      transform: translate3d(0,100%,0);
+      transition: transform $indexHoverAT 0.1s;
+      color: transparent;
+      
+      &:before {
+        content: attr(data-index);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        transform: translate3d(0,-100%,0);
+        transition: transform $indexHoverAT 0.1s;
+      }
+      
+      @include elHover {
+        transform: translate3d(0,0,0);
+        
+        &:before {
+          transform: translate3d(0,0,0);
+        }
+      }
+    }
+  }
+
+  @for $i from 0 to $numOfEls {
+    &:nth-child(#{$i + 1}) {
+      $x: (100% + $elMrgRel) * $i;
+      transform: translate3d($x,0,0);
+      transform-origin: $x + 50% 50%;
+      
+      @include contElActive {
+        
+        &:not(.s--active) {
+          transform: scale(0.5) translate3d($x,0,0);
+          opacity: 0;
+          transition: transform $fadeoutAT, opacity $fadeoutAT;
+        }
+      }
+
+      .el__inner {
+        transition-delay: $initDelayStep * $i;
+      }
+
+      .el__bg {
+        transform: translate3d($elW * $i * -1,0,0);
+
+        &:before {
+          transition-delay: 0.1s * $i;
+          background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/onepgscr-#{$i + 3}.jpg');
+        }
+      }
+    }
+  }
+  
+  &:hover {
+    
+    .el__bg:after {
+      opacity: 0;
+    }
+  }
+
+  &.s--active {
+    z-index: 1;
+    width: 100%;
+    transform: translate3d(0,0,0);
+    transition: transform $moveAT, width $expandAT $moveAT + $expandDelay, z-index 0s;
+
+    .el__bg {
+      transform: translate3d(0,0,0);
+      transition: transform $moveAT;
+
+      &:before {
+        transition-delay: $moveAT;
+        transform: scale(1.1);
+      }
+    }
+  }
 }
-.sec-standards article {
-  float: left;
-  padding: .5em 1em;
-  width: 50%;
-  text-align: justify;
-}
-.sec-standards article:last-child {padding: .5em 0;}
-.sec-standards article h1 {text-align: center;}
-/*Partners*/
-.sec-partners h1 {margin-top: 1em;}
-.sec-partners .row {
-  float: left;
-  margin: 2em 0;
-  width: 100%;
-}
-.logo-container {
-  float: left;
-  width: 16%;
-  width: 100px;
-}
-.logo-container:not(:first-child) {margin-left: 7.5%;}
-.logo-container:first-child {margin-top: .2em;}
-.logo-container:nth-of-type(2) img {margin-top: 1.2em}
-.logo-container:nth-of-type(3) img {margin-top: 1.8em;}
-.logo-container:nth-of-type(4) img {margin-top: 2.35em;}
-.logo-container:nth-of-type(5) img {margin-top: .35em;}
-.logo-container:last-of-type img {margin-top: .65em;}
-.sec-partners img {
-  float: left;
-  width: 100%;
-}
-/*Footer*/
-footer {
-  padding: 2em 0;
-  width: 100%;
-  text-align: center;
-  background: $lightGrey;
-}
-footer .nav-ul {justify-content: center;margin-bottom: 1em;}
-footer li:not(:first-child) {margin-left: .75em;}
-footer li:first-child a {color: $lightBlack;}
-footer a {
-  font-size: 1.25em;
-  font-weight: bold;
-  color: $darkGrey;
-  &:focus,
-  &:hover {color: $lightBlack;}
+
+.icon-link {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 32px;
+
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+
+  &--twitter {
+    left: auto;
+    right: 5px;
+  }
 }
 .copy {font-size: .85em;}
 
